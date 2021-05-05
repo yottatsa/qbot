@@ -9,6 +9,10 @@ from telegram.ext import CallbackContext, CommandHandler, InlineQueryHandler, Up
 logger: logging.Logger = logging.getLogger(__name__)
 
 
+def trim_by_word(s: str, limit=5) -> str:
+    return " ".join(s.split(" ")[0:limit]) + "..."
+
+
 class QBot:
     def __init__(self, token: str, replies: Collection[str]) -> None:
         self.token = token
@@ -32,7 +36,7 @@ class QBot:
         results = [
             InlineQueryResultArticle(
                 id=uuid.uuid4(),
-                title=f"{reply[0:5]}...",
+                title=trim_by_word(reply),
                 input_message_content=InputTextMessageContent(reply),
             ),
         ]
